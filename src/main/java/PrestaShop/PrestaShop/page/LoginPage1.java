@@ -71,7 +71,7 @@ public class LoginPage1 extends PrestaShop.PrestaShop.util.BasePage{
 	By imageTshirt = By.xpath("//a[@class='product_img_link']//img[@class='replace-2x img-responsive']");
 	By addToCart_btn = By.cssSelector(".ajax_add_to_cart_button > span");
 	By continueShoping = By.cssSelector(".continue > span");
-	By proceedToCheckout = By.xpath("(//span[normalize-space()='Proceed to checkout'])[2]");
+	By proceedToCheckout = By.xpath("//span[normalize-space()='Proceed to checkout']");
 	By proceedToCheckout2 = By.xpath("(//span[normalize-space()='Proceed to checkout'])[2]");
 	
 	// Complete Payment Process
