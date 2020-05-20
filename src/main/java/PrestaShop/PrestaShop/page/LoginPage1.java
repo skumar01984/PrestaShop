@@ -75,7 +75,7 @@ public class LoginPage1 extends PrestaShop.PrestaShop.util.BasePage{
 	By proceedToCheckout2 = By.xpath("(//span[normalize-space()='Proceed to checkout'])[2]");
 	
 	// Complete Payment Process
-	By processCarrier_proceedToCheckout = By.xpath("//button[@name='processCarrier']//span[contains(text(),'Proceed to checkout')]");
+	By processCarrier_proceedToCheckout = By.xpath("//button[@name='processCarrier']");
 	By termCondition_chkb = By.id("cgv");
 	By totalPrice = By.id("total_price");
 	By bankWire_link = By.cssSelector(".bankwire");
@@ -229,14 +229,14 @@ public class LoginPage1 extends PrestaShop.PrestaShop.util.BasePage{
         }
         //List<WebElement> stepList = getWebElements(orderStep);
         bringElementIntoView(proceedToCheckout2);
-        for(int i = 0; i< 4; i++) {
+        /*for(int i = 0; i< 4; i++) {
         	javaScriptClickOn(proceedToCheckout2);
         	Thread.sleep(2000);
         	//waitForJStoLoad();
         	if(isDisplayed(processCarrier_proceedToCheckout, 5)) {
         		javaScriptClickOn(termCondition_chkb);
         		Thread.sleep(1000);
-        		javaScriptClickOn(processCarrier_proceedToCheckout);
+        		javaScriptClickOn(proceedToCheckout2);
         		Thread.sleep(2000);
             	//waitForJStoLoad();
         	}
@@ -246,25 +246,27 @@ public class LoginPage1 extends PrestaShop.PrestaShop.util.BasePage{
         		Thread.sleep(2000);
             	waitForJStoLoad();
         	}
-        }
-       /* while (isDisplayed(proceedToCheckout2, 5)) {
+        }*/
+        bringElementIntoView(proceedToCheckout2);
+        while (isDisplayed(proceedToCheckout2, 5)) {
         	javaScriptClickOn(proceedToCheckout2);
         	Thread.sleep(2000);
         	waitForJStoLoad();
-        	if(isDisplayed(processCarrier_proceedToCheckout, 5)) {
+        	bringElementIntoView(proceedToCheckout2);
+        	if(getWebElement(termCondition_chkb).isDisplayed() && getWebElement(termCondition_chkb).isEnabled()){
         		javaScriptClickOn(termCondition_chkb);
         		Thread.sleep(1000);
-        		javaScriptClickOn(processCarrier_proceedToCheckout);
+        		javaScriptClickOn(proceedToCheckout2);
         		Thread.sleep(2000);
             	waitForJStoLoad();
         	}
-        	if(isDisplayed(bankWire_link, 5)) {
+        	if(getWebElement(bankWire_link).isDisplayed() && getWebElement(bankWire_link).isEnabled()){
         		total_Price = getText(totalPrice);
         		javaScriptClickOn(bankWire_link);
         		Thread.sleep(2000);
             	waitForJStoLoad();
         	}
-        }*/
+        }
         
         String actual_amount = getText(payment_amount);
         if(total_Price.equals(actual_amount)) {
@@ -288,6 +290,13 @@ public class LoginPage1 extends PrestaShop.PrestaShop.util.BasePage{
         }else {
         	System.out.println("the total cost of product is incorrect" + total_Price + "  and payment value is : "+ complete_Pyment);
         	status = false;
+        }
+        
+        if(getWebElement(confirmOrder_btn).isDisplayed() && getWebElement(confirmOrder_btn).isEnabled()){
+	        javaScriptClickOn(confirmOrder_btn);
+	        Thread.sleep(2000);
+	        waitForJStoLoad();
+	        
         }
         
     }catch (Exception e) {

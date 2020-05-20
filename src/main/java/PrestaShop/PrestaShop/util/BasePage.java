@@ -7,7 +7,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.logging.LogEntry;
+
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -18,21 +18,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.bind.DatatypeConverter;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -90,29 +84,7 @@ public class BasePage {
     }
     
 
-    public boolean isBlank(String obj) {
-
-   if(obj!=null)
-            return obj.isEmpty();
-        else
-
-    {
-        return false;
-    }
-
-}
-    public boolean isNotBlank(String obj)
-
-    {
-        if(obj!=null)
-            return  !obj.isEmpty();
-        else
-        {return false;}
-    }
-
-
-
-
+ 
     public void clickOn(By locator) {
 
         try {
@@ -124,14 +96,7 @@ public class BasePage {
         }
     }
 
-    public void selectCheckbox(By locator)
-    {
-
-            driver.findElement(locator).click();
-
-    }
-
-
+ 
     public void javaScriptClickOn(By locator) {
     		WebDriverWait wait = new WebDriverWait(driver, DefaultTimeOut);
           WebElement element =  wait.until(ExpectedConditions.presenceOfElementLocated(locator));
@@ -147,44 +112,7 @@ public class BasePage {
     }
 
 
-    public void SwitchToFrame(By Locator) {
-    	WebDriverWait wait = new WebDriverWait(driver, DefaultTimeOut);
-        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(Locator));
-    }
-
-    protected String switchWindow() {
-        String mainWindow = driver.getWindowHandle();
-        WebDriverWait wait = new WebDriverWait(driver, DefaultTimeOut);
-        wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-        Set<String> Windows = driver.getWindowHandles();
-        List<String> Windowlist = new ArrayList<String>(Windows);
-        driver.switchTo().window(Windowlist.get(1));
-
-        if(driver instanceof InternetExplorerDriver)
-        {
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            Dimension screenResolution = new Dimension((int)
-                    toolkit.getScreenSize().getWidth(), (int)
-                    toolkit.getScreenSize().getHeight());
-
-            driver.manage().window().setSize(screenResolution);
-        }
-        return mainWindow;
-    }
-
-    public BasePage SwitchBackFromFrame() {
-        driver.switchTo().defaultContent();
-        return this;
-    }
-
-
-
-    public void logPerformance() throws URISyntaxException {
-       /* List<LogEntry> logs = driver.manage().logs().get("performance").getAll();
-        getStatus(logs);*/
-    }
-
-    
+     
                         //       }
 
 
@@ -206,15 +134,6 @@ public class BasePage {
     }
 
 
-
-    public void rightClick(By locator) {
-
-        Actions actions = new Actions(driver);
-        WebDriverWait wait = new WebDriverWait(driver, DefaultTimeOut);
-        WebElement elementLocator =  wait.until(ExpectedConditions.presenceOfElementLocated(locator));
-        actions.contextClick(elementLocator).perform();
-        
-    }
     public void waitUntilDisappear(By Locator, int timeoutforappear,int timeoutfordisappear)
     {
 
@@ -253,11 +172,6 @@ public class BasePage {
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("window.scrollBy(0,-1000)");
 
-    }
-
-    public void uploadFile(By locator, String FilePath) {
-    	WebDriverWait wait = new WebDriverWait(driver, DefaultTimeOut);
-        wait.until(ExpectedConditions.presenceOfElementLocated(locator)).sendKeys(FilePath);
     }
 
     public boolean isAlertPresent(int time) {
@@ -390,7 +304,7 @@ public class BasePage {
     public void selectFromAutoSuggest(By Locator, By AutosuggestTextLocator, By AutosuggestArea, String valueToBeSelect) throws InterruptedException {
         isDisplayed(Locator, 10);
         clickOn(Locator);
-        clearText(AutosuggestTextLocator);
+        //clearText(AutosuggestTextLocator);
         String[] newValueToBeSelect = valueToBeSelect.split("(?!^)");
         for (String value : newValueToBeSelect) {
             enterTextWithoutClear(AutosuggestTextLocator, value);
@@ -429,31 +343,6 @@ public class BasePage {
                return new ArrayList<WebElement>();
            }
     }
-
-    public Boolean isVisibleInViewport(By Locator,int timeout) {
-        WebDriverWait wbwait = new WebDriverWait(driver,timeout);
-      WebElement webElement =  wbwait.until(ExpectedConditions.visibilityOfElementLocated(Locator));
-
-        return (Boolean)((JavascriptExecutor)driver).executeScript(
-                "var elem = arguments[0],                 " +
-                        "  box = elem.getBoundingClientRect(),    " +
-                        "  cx = box.left + box.width / 2,         " +
-                        "  cy = box.top + box.height / 2,         " +
-                        "  e = document.elementFromPoint(cx, cy); " +
-                        "for (; e; e = e.parentElement) {         " +
-                        "  if (e === elem)                        " +
-                        "    return true;                         " +
-                        "}                                        " +
-                        "return false;                            "
-                , webElement);
-    }
-
-    public void clearText(By Locator) {
-    	WebDriverWait wait = new WebDriverWait(driver, DefaultTimeOut);
-        wait.until(ExpectedConditions.elementToBeClickable(Locator)).clear();
-
-    }
-
 
     public String getAttributeValue(By Locator, String attribute) {
     	WebDriverWait wait = new WebDriverWait(driver, DefaultTimeOut);
